@@ -5,7 +5,8 @@
   <image src="https://img.shields.io/badge/using-Selenium-%2343B02A?style=flat-square&logo=selenium"/>&nbsp 
 </p>
 
-게임물관리위원회의 실시간 심의정보를 제공하는 웹 사이트 gamealive의 API 서버입니다.
+게임물관리위원회의 실시간 심의정보를 제공하는 웹 사이트 gamealive의 API 서버입니다.  
+10분 단위 자동 스크래핑과 일괄 스크래핑 기능을 지원합니다.
 
 ## 실행 전 요구사항
 
@@ -66,7 +67,7 @@ Yarn이 설치되어 있지 않을 경우 [링크](https://github.com/yarnpkg/ya
   페이지네이션입니다(10개당 1페이지). 값이 없을 시 1페이지로 간주됩니다.
   + reject  
   심의거부된 게임물 표시 여부 옵션입니다. true 또는 false를 입력하며, 값이 없을 시 false로 간주됩니다.
-  + cancel 심의거부된 게임물 표시  
+  + cancel  
   심의취소된 게임물 표시 여부 옵션입니다. true 또는 false를 입력하며, 값이 없을 시 false로 간주됩니다.
 
 + /api/review/listbykeyword  
@@ -78,7 +79,7 @@ Yarn이 설치되어 있지 않을 경우 [링크](https://github.com/yarnpkg/ya
   페이지네이션입니다(10개당 1페이지). 값이 없을 시 1페이지로 간주됩니다.
   + reject  
   심의거부된 게임물 표시 여부 옵션입니다. true 또는 false를 입력하며, 값이 없을 시 false로 간주됩니다.
-  + cancel 심의거부된 게임물 표시  
+  + cancel  
   심의취소된 게임물 표시 여부 옵션입니다. true 또는 false를 입력하며, 값이 없을 시 false로 간주됩니다.
 
 
