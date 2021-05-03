@@ -3,7 +3,7 @@
  */
 
 import { stringToDate } from '../modules/date';
-import batch from './batch_crawl';
+import batch from './batch_scrap';
 import readlineSync from 'readline-sync';
 import logger from '../modules/winston';
 
@@ -23,7 +23,7 @@ const batchReview = (startDate, endDate) => {
   ) {
     console.log('E: Invalid format');
   } else if (dateValue.start > today || dateValue.end > today) {
-    console.log('E: Future review information cannot be crawled.');
+    console.log('E: Future review information cannot be scrapped.');
   } else {
     batch(dateValue.start, dateValue.end);
   }

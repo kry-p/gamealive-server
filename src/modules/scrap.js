@@ -66,7 +66,7 @@ async function getPageCount(url) {
 }
 
 // 크롤링
-async function crawl(pages) {
+async function scrap(pages) {
   // 시간제한 (반복문 강제 딜레이)
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
   // 크롤링 결과
@@ -98,7 +98,7 @@ async function crawl(pages) {
   };
 
   // 입력받은 페이지 크롤링
-  const crawler = async (page) => {
+  const scraper = async (page) => {
     params.pageindex = page; // 쿼리문에 페이지를 지정
 
     await driver.get(baseUrl + createQueryParams(params)); // 페이지를 가져옴
@@ -155,7 +155,7 @@ async function crawl(pages) {
                         .catch(() => {
                           pushIntoResult(td, null); // 오류 발생 시 null 삽입
                           logger.error(
-                            'Crawler: No corresponding image element found.',
+                            'Scraper: No corresponding image element found.',
                           );
                         });
                     } else {
@@ -184,7 +184,7 @@ async function crawl(pages) {
                 }
               })
               .catch(() => {
-                logger.error('Crawler: No corresponding table element found.');
+                logger.error('Scraper: No corresponding table element found.');
               });
           })();
         });
@@ -194,7 +194,7 @@ async function crawl(pages) {
   // 페이지별 반복 작업
   await (async () => {
     for (let i = 0; i < pages; i++) {
-      await crawler(i);
+      await scraper(i);
       await timer(1000);
     }
   })();
@@ -216,7 +216,7 @@ async function getData(startdate, enddate) {
   const pages = await getPageCount(url);
 
   if (pages !== null) {
-    return await crawl(pages);
+    return await scrap(pages);
   } else return null;
 }
 

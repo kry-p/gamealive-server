@@ -1,5 +1,5 @@
 import Review from '../models/review';
-import getData from './crawl';
+import getData from './scrap';
 import logger from './winston';
 import { dateToString, stringToDate } from '../modules/date';
 
@@ -34,45 +34,12 @@ export default async function getReviewData(startDate, endDate) {
 
   try {
     (async () => {
-      // 현재 날짜가 endDate가 될 때까지 반복 작업을 수행
-      // do {
-      //   const crawlResult = await getData(currentDate, currentDate);
-      //   const bulkResult = [];
-
-      //   if (crawlResult !== null) {
-      //     // update 구문 구성
-      //     crawlResult.forEach((review) => {
-      //       bulkResult.push(
-      //         reviewMaker(
-      //           review.title,
-      //           review.applicant,
-      //           currentDate,
-      //           review.rating,
-      //           review.code,
-      //         ),
-      //       );
-      //     });
-
-      //     // 일괄 삽입
-      //     const bulkWriteResult = await Review.bulkWrite(bulkResult);
-
-      //     result.insertedCount += bulkWriteResult.insertedCount;
-      //     result.matchedCount += bulkWriteResult.matchedCount;
-      //     result.modifiedCount += bulkWriteResult.modifiedCount;
-      //     result.deletedCount += bulkWriteResult.deletedCount;
-      //     result.upsertedCount += bulkWriteResult.upsertedCount;
-      //   }
-
-      //   await sleep(15000);
-      //   currentDate.setDate(currentDate.getDate() + 1);
-      // } while (currentDate <= endDate);
-
-      const crawlResult = await getData(startDate, endDate);
+      const scrapResult = await getData(startDate, endDate);
       const bulkResult = [];
 
-      if (crawlResult !== null) {
+      if (scrapResult !== null) {
         // update 구문 구성
-        crawlResult.forEach((review) => {
+        scrapResult.forEach((review) => {
           bulkResult.push(
             reviewMaker(
               review.title,
@@ -93,11 +60,8 @@ export default async function getReviewData(startDate, endDate) {
         result.upsertedCount += bulkWriteResult.upsertedCount;
       }
 
-      // await sleep(15000);
-      // currentDate.setDate(currentDate.getDate() + 1);
-
       logger.info(
-        `Crawler: Collected review information from ${dateToString(
+        `Scraper: Collected review information from ${dateToString(
           startDate,
         )} to ${dateToString(endDate)}.
         Inserted: ${result.insertedCount}, Matched: ${
@@ -109,7 +73,7 @@ export default async function getReviewData(startDate, endDate) {
       );
     })();
   } catch (error) {
-    logger.error(`Crawler: Cannot get review information.\n
+    logger.error(`Scraper: Cannot get review information.\n
     Caused by: ${error}`);
   }
 }

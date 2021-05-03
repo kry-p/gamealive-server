@@ -15,10 +15,10 @@ require('dotenv').config();
 const app = new Koa();
 const router = new Router();
 
-const { PORT, MONGO_URI } = process.env;
+const { PORT, MONGO_URI, BUILD_DIR } = process.env;
 const port = PORT || 4000;
 
-const buildDirectory = path.resolve(__dirname, '../../front/build');
+const buildDirectory = path.resolve(__dirname, BUILD_DIR);
 
 // 새로운 심의정보를 받아옴
 async function handleAsync() {
@@ -40,7 +40,7 @@ mongoose
 
 // 10분 주기로 실행
 cron.schedule('*/10 * * * *', async () => {
-  logger.info('Schedule: Crawler runs every 10 min.');
+  logger.info('Schedule: Scraper runs every 10 min.');
   await handleAsync();
 });
 
