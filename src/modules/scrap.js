@@ -5,9 +5,11 @@ import chrome from 'selenium-webdriver/chrome';
 import logger from './winston';
 
 const options = new chrome.Options();
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36'
 
 options.addArguments('--headless');
 options.addArguments('--disable-gpu');
+options.addArguments(`user-agent=${userAgent}`)
 
 const driver = new webdriver.Builder()
   .forBrowser('chrome')
