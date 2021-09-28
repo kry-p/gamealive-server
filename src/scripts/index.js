@@ -1,5 +1,5 @@
 /*
- * 일괄 처리 스크립트 관리 모듈
+ * Modules for batch script administration
  */
 
 import { stringToDate } from '../modules/date';
