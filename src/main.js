@@ -7,6 +7,8 @@ import serve from 'koa-static';
 import path from 'path';
 import send from 'koa-send';
 
+import cors from '@koa/cors';
+
 import api from './api';
 import getReviewData from './modules/review';
 
@@ -48,6 +50,7 @@ cron.schedule('*/10 * * * *', async () => {
 router.use('/api', api.routes());
 
 app.use(router.routes()).use(router.allowedMethods());
+app.use(cors());
 
 // for stand-alone API server
 if (buildDirectory !== undefined) {
