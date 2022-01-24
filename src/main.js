@@ -7,6 +7,8 @@ import serve from 'koa-static';
 import path from 'path';
 import send from 'koa-send';
 
+import cors from '@koa/cors';
+
 import api from './api';
 import getReviewData from './modules/review';
 
@@ -18,9 +20,10 @@ const router = new Router();
 const { PORT, MONGO_URI, BUILD_DIR } = process.env;
 const port = PORT || 4000;
 
-const buildDirectory = path.resolve(__dirname, BUILD_DIR);
+const buildDirectory =
+  BUILD_DIR === undefined ? undefined : path.resolve(__dirname, BUILD_DIR);
 
-// 새로운 심의정보를 받아옴
+// get new review informations
 async function handleAsync() {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -38,7 +41,7 @@ mongoose
     logger.error(e);
   });
 
-// 10분 주기로 실행
+// works every 10 min.
 cron.schedule('*/10 * * * *', async () => {
   logger.info('Schedule: Scraper runs every 10 min.');
   await handleAsync();
@@ -47,15 +50,19 @@ cron.schedule('*/10 * * * *', async () => {
 router.use('/api', api.routes());
 
 app.use(router.routes()).use(router.allowedMethods());
+app.use(cors());
 
-app.use(serve(buildDirectory));
-app.use(async (ctx) => {
-  // not found, not started at /api
-  if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
-    // return index.html
-    await send(ctx, 'index.html', { root: buildDirectory });
-  }
-});
+// for stand-alone API server
+if (buildDirectory !== undefined) {
+  app.use(serve(buildDirectory));
+  app.use(async (ctx) => {
+    // not found, not started at /api
+    if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
+      // return index.html
+      await send(ctx, 'index.html', { root: buildDirectory });
+    }
+  });
+}
 
 app.listen(port, () => {
   logger.info(`Server: Listening to port ${port}`);

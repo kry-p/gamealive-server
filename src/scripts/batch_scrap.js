@@ -15,9 +15,9 @@ const { MONGO_URI } = process.env;
 export default async function batch(startDate, endDate) {
   // connect to mongodb
 
-  logger.info('Crawler: Batch crawling process begins...');
+  logger.info('Scraper: Batch scraping process begins...');
   logger.info(
-    `Crawler: Starts at ${dateToString(startDate)}, ends at ${dateToString(
+    `Scraper: Starts at ${dateToString(startDate)}, ends at ${dateToString(
       endDate,
     )}`,
   );
