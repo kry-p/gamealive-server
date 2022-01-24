@@ -10,7 +10,7 @@ import logger from '../modules/winston';
 const now = new Date();
 const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-const batchReview = (startDate, endDate) => {
+const batchReview = async (startDate, endDate) => {
   const dateValue = {
     start: typeof startDate === 'object' ? startDate : stringToDate(startDate),
     end: typeof endDate === 'object' ? endDate : stringToDate(endDate),
@@ -25,7 +25,7 @@ const batchReview = (startDate, endDate) => {
   } else if (dateValue.start > today || dateValue.end > today) {
     console.log('E: Future review information cannot be scrapped.');
   } else {
-    batch(dateValue.start, dateValue.end);
+    await batch(dateValue.start, dateValue.end);
   }
 };
 
@@ -34,8 +34,9 @@ const modules = {
     name: 'Review initialization module',
     exec: () => {
       const startDate = readlineSync.question('Enter the start date : ');
+      const endDate = readlineSync.question('Enter the end date : ');
 
-      batchReview(startDate, today);
+      batchReview(startDate, endDate);
     },
   },
 };
