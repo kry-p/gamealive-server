@@ -15,7 +15,10 @@ import compress from 'koa-compress';
 import zlib from 'zlib';
 
 import fs from 'fs';
+import http from 'http';
 import https from 'https';
+
+import forceHTTPS from 'koa-force-https';
 
 require('dotenv').config();
 
@@ -64,6 +67,7 @@ try {
       flush: zlib.constants.Z_SYNC_FLUSH,
     }),
   );
+  app.use(forceHTTPS());
 
   // for stand-alone API server
   if (buildDirectory !== undefined) {
@@ -93,6 +97,8 @@ try {
         },
       },
     };
+
+    http.createServer(app.callback()).listen(80);
     const httpsServer = https.createServer(
       config.https.options,
       serverCallback,
