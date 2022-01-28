@@ -1,24 +1,36 @@
-import Koa from 'koa';
-import Router from 'koa-router';
-import mongoose from 'mongoose';
-import cron from 'node-cron';
-import logger from './modules/winston';
-import serve from 'koa-static';
-import path from 'path';
-import send from 'koa-send';
+/*
+ * Koa.js - Node API server with TLS
+ * for gamealive
+ *
+ * https://github.com/kry-p/gamealive-server
+ */
 
-import cors from '@koa/cors';
-
-import api from './api';
-import getReviewData from './modules/review';
-import compress from 'koa-compress';
-import zlib from 'zlib';
-
+// Built-in module
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
+import cron from 'node-cron';
+import path from 'path';
+import compress from 'koa-compress';
 
+// Koa.js
+import Koa from 'koa';
+import Router from 'koa-router';
+import cors from '@koa/cors';
+import serve from 'koa-static';
+import send from 'koa-send';
 import forceHTTPS from 'koa-force-https';
+
+// database
+import mongoose from 'mongoose';
+
+// utility
+import zlib from 'zlib';
+
+// misc.
+import logger from './modules/winston';
+import api from './api';
+import getReviewData from './modules/review';
 
 require('dotenv').config();
 
