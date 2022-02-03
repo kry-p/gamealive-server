@@ -82,26 +82,28 @@ async function scrap(startdate, enddate) {
           if (!Array.isArray(data.item)) {
             data.item = [data.item];
           }
-          for (let value of data.item) {
-            for (let key in mapper) {
-              if (mapper[key] === '') {
-                delete value[key];
-              } else {
-                const temp = value[key];
-                delete value[key];
-                value[mapper[key]] = temp;
+          if (data.tcount != 0) {
+            for (let value of data.item) {
+              for (let key in mapper) {
+                if (mapper[key] === '') {
+                  delete value[key];
+                } else {
+                  const temp = value[key];
+                  delete value[key];
+                  value[mapper[key]] = temp;
 
-                if (mapper[key] == 'rating') {
-                  for (let r in rating) {
-                    if (value.rating === rating[r]) value.rating = r;
+                  if (mapper[key] == 'rating') {
+                    for (let r in rating) {
+                      if (value.rating === rating[r]) value.rating = r;
+                    }
                   }
                 }
               }
             }
+            data.item.forEach((item) => {
+              result.push(item);
+            });
           }
-          data.item.forEach((item) => {
-            result.push(item);
-          });
         }
       })();
     }
