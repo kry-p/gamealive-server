@@ -23,7 +23,7 @@ export default async function batch(startDate, endDate) {
   );
 
   await mongoose
-    .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
+    .connect(MONGO_URI)
     .then(() => {
       logger.info('Server: Connected to MongoDB');
     })

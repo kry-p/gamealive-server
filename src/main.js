@@ -19,7 +19,6 @@ import Router from 'koa-router';
 import cors from '@koa/cors';
 import serve from 'koa-static';
 import send from 'koa-send';
-import forceHTTPS from 'koa-force-https';
 
 // database
 import mongoose from 'mongoose';
@@ -54,7 +53,7 @@ async function handleAsync() {
 
 // connect to mongodb
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
+  .connect(MONGO_URI)
   .then(() => {
     logger.info('Server: Connected to MongoDB');
   })
@@ -79,7 +78,7 @@ try {
       flush: zlib.constants.Z_SYNC_FLUSH,
     }),
   );
-  app.use(forceHTTPS());
+  // app.use(forceHTTPS());
 
   // for stand-alone API server
   if (buildDirectory !== undefined) {
